@@ -1,10 +1,13 @@
 using Amazon.Lambda.Core;
 using Amazon.Lambda.SNSEvents;
+using LambdaHosting;
+using LambdaHosting.Abstractions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Nest;
 using Newtonsoft.Json;
 using System;
+using System.IO;
 using System.Threading.Tasks;
 using WebAdvert.AdvertApi.Dto.Messages;
 using WebAdvert.SearchWorker.Models;
@@ -15,54 +18,61 @@ namespace WebAdvert.SearchWorker
 {
     public class SearchWorkerFunction
     {
-        private readonly IServiceProvider _serviceProvider;
+        //private readonly IServiceProvider _serviceProvider;
 
-        //public SearchWorkerFunction(IServiceProvider serviceProvider)
+        //public SearchWorkerFunction()
         //{
-        //    _serviceProvider = serviceProvider;
+        //    var services = new ServiceCollection();
+        //    ConfigureServices(services);
+        //    _serviceProvider = services.BuildServiceProvider();
         //}
-
-        //public SearchWorkerFunction() : this(Startup.Container.BuildServiceProvider())
-        public SearchWorkerFunction()
-        {
-            var services = new ServiceCollection();
-            ConfigureServices(services);
-            _serviceProvider = services.BuildServiceProvider();
-        }
 
         public async Task FunctionHandler(SNSEvent snsEvent, ILambdaContext context)
         {
-            var configuration = _serviceProvider.GetService<IConfiguration>();
-            var url = configuration.GetSection("ES").GetValue<string>("url");
+            var lambdaHost = new LambdaHostBuilder()
+                .ConfigureAppConfiguration((hostContext, appConfigBuilder) => {
+                    appConfigBuilder.SetBasePath(Directory.GetCurrentDirectory());
+                    appConfigBuilder.AddJsonFile("appsettings.json", optional: true);
+                })
+                .ConfigureServices((hostContext, services) =>
+                {
+                    services.AddSingleton<IElasticSearchService, ElasticSearchService>();
+                    services.AddTransient<ILambda, LambdaTest>();
+                })
+                .Build();
 
-            var setttings = new ConnectionSettings(new Uri(url))
-                .DefaultIndex("adverts")
-                .DefaultMappingFor<AdvertDocument>(m => m.IdProperty(x => x.Id));
+            await lambdaHost.RunAsync();
+            //var configuration = _serviceProvider.GetService<IConfiguration>();
+            //var url = configuration.GetSection("ES").GetValue<string>("url");
 
-            var elasticClient = new ElasticClient(setttings);
+            //var setttings = new ConnectionSettings(new Uri(url))
+            //    .DefaultIndex("adverts")
+            //    .DefaultMappingFor<AdvertDocument>(m => m.IdProperty(x => x.Id));
 
-            context.Logger.LogLine($"Elastic service url: {url}");
+            //var elasticClient = new ElasticClient(setttings);
 
-            foreach (var record in snsEvent.Records)
-            {
-                context.Logger.LogLine(record.Sns.Message);
+            //context.Logger.LogLine($"Elastic service url: {url}");
 
-                //var message = JsonConvert.DeserializeObject<AdvertConfirmedMessage>(record.Sns.Message);
-                //var advertDocument = new AdvertDocument
-                //{
-                //    Id = message.Id,
-                //    Title = message.Title,
-                //    CreationDateTime = DateTime.UtcNow
-                //};
+            //foreach (var record in snsEvent.Records)
+            //{
+            //    context.Logger.LogLine(record.Sns.Message);
 
-                //await elasticClient.IndexDocumentAsync(advertDocument);
-            }
+            //    //var message = JsonConvert.DeserializeObject<AdvertConfirmedMessage>(record.Sns.Message);
+            //    //var advertDocument = new AdvertDocument
+            //    //{
+            //    //    Id = message.Id,
+            //    //    Title = message.Title,
+            //    //    CreationDateTime = DateTime.UtcNow
+            //    //};
+
+            //    //await elasticClient.IndexDocumentAsync(advertDocument);
+            //}
         }
 
-        private void ConfigureServices(IServiceCollection services)
-        {
-            services.AddSingleton<IConfiguration>(LambdaConfiguration.Configuration);
-            //services.AddSingleton<IElasticClient>(new ElasticClient());
-        }
+        //private void ConfigureServices(IServiceCollection services)
+        //{
+        //    services.AddSingleton<IConfiguration>(LambdaConfiguration.Configuration);
+        //    //services.AddSingleton<IElasticClient>(new ElasticClient());
+        //}
     }
 }
