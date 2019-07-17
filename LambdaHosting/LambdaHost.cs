@@ -1,4 +1,6 @@
-﻿using LambdaHosting.Abstractions;
+﻿using Amazon.Lambda.Core;
+using Amazon.Lambda.SNSEvents;
+using LambdaHosting.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
@@ -21,12 +23,12 @@ namespace LambdaHosting
             _applicationLifeTime = applicationLifeTime;
         }
 
-        public async Task RunAsync(CancellationToken cancellationToken = default)
+        public async Task RunAsync(SNSEvent snsEvent, ILambdaContext context, CancellationToken cancellationToken = default)
         {
             Debug.WriteLine("-----------");
             Debug.WriteLine("LambdaHost.RunAsync - Starting");
 
-            var lambda = _serviceProvider.GetService<ILambda>();
+            var lambda = _serviceProvider.GetService<ILambda<SNSEvent>>();
 
             if (lambda == null)
             {
@@ -34,7 +36,7 @@ namespace LambdaHosting
             }
 
             Debug.WriteLine("LambdaHost.RunAsync - Lambda found");
-            await lambda.ExecuteAsync();
+            await lambda.ExecuteAsync(snsEvent, context);
 
             _applicationLifeTime.StopApplication();
         }

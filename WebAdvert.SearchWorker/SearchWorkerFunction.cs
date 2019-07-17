@@ -37,11 +37,14 @@ namespace WebAdvert.SearchWorker
                 .ConfigureServices((hostContext, services) =>
                 {
                     services.AddSingleton<IElasticSearchService, ElasticSearchService>();
-                    services.AddTransient<ILambda, LambdaTest>();
+                    services.AddTransient<ILambda<SNSEvent>, LambdaTest>();
                 })
                 .Build();
 
-            await lambdaHost.RunAsync();
+            //HERE // TODO: pass different parameters SNSEvent or another
+            //list of avaliable lambdas with available parameters
+            await lambdaHost.RunAsync(snsEvent, context);
+
             //var configuration = _serviceProvider.GetService<IConfiguration>();
             //var url = configuration.GetSection("ES").GetValue<string>("url");
 
