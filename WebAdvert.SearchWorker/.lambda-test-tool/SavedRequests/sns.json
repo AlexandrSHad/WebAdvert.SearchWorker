@@ -3,7 +3,7 @@
     {
       "sns":
         {
-          "message": "{ \"ID\": \"123456\" }"
+          "message": "{ \"Id\": \"123456\", \"Title\": \"Title test\" }"
         }
     }
   ]

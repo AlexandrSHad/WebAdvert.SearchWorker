@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Nest;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
+using System.Threading.Tasks;
+using WebAdvert.SearchWorker.Models;
 
 namespace WebAdvert.SearchWorker.Services
 {
@@ -18,9 +18,16 @@ namespace WebAdvert.SearchWorker.Services
             Debug.WriteLine($"ElasticSearchService.ctor - ES URL: {url}");
 
             var setttings = new ConnectionSettings(new Uri(url))
-                .DefaultIndex("adverts");
+                .DefaultIndex("adverts")
+                .DefaultMappingFor<AdvertDocument>(m => m.IdProperty(x => x.Id));
 
             _client = new ElasticClient(setttings);
+        }
+
+        public async Task<bool> IndexAdvertDocument(AdvertDocument document)
+        {
+            var response = await _client.IndexDocumentAsync(document);
+            return response.IsValid;
         }
     }
 }

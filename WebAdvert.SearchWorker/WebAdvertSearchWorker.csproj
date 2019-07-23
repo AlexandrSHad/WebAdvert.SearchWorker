@@ -15,12 +15,9 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="2.1.1" />
     <PackageReference Include="NEST" Version="7.0.1" />
     <PackageReference Include="WebAdvert.AdvertApi.Dto" Version="1.1.0" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\LambdaHosting.Abstractions\LambdaHosting.Abstractions.csproj" />
-    <ProjectReference Include="..\LambdaHosting\LambdaHosting.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="appsettings.json">

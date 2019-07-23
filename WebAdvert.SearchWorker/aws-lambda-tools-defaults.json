@@ -6,6 +6,5 @@
   "function-runtime": "dotnetcore2.0",
   "function-memory-size": 256,
   "function-timeout": 30,
-  // "WebAdvertSearchWorker" - use the assembly name without dot. Otherwise test tool will not work.
-  "function-handler": "WebAdvertSearchWorker::WebAdvert.SearchWorker.SearchWorkerFunction::FunctionHandler"
+  "function-handler": "WebAdvertSearchWorker::WebAdvert.SearchWorker.SearchWorkerFunction::FunctionEntryPoint"
 }

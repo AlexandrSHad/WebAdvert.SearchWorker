@@ -5,10 +5,6 @@ VisualStudioVersion = 16.0.29025.244
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAdvertSearchWorker", "WebAdvertSearchWorker.csproj", "{76B2730D-7AA7-4EC6-9D6A-652DFB0B762C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LambdaHosting.Abstractions", "..\LambdaHosting.Abstractions\LambdaHosting.Abstractions.csproj", "{86B9343B-D7AF-4B80-ABFF-8776693823DD}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LambdaHosting", "..\LambdaHosting\LambdaHosting.csproj", "{A69499E3-8CCC-4FAA-8884-CCB2D59720AF}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,14 +15,6 @@ Global
 		{76B2730D-7AA7-4EC6-9D6A-652DFB0B762C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{76B2730D-7AA7-4EC6-9D6A-652DFB0B762C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{76B2730D-7AA7-4EC6-9D6A-652DFB0B762C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{86B9343B-D7AF-4B80-ABFF-8776693823DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{86B9343B-D7AF-4B80-ABFF-8776693823DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{86B9343B-D7AF-4B80-ABFF-8776693823DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{86B9343B-D7AF-4B80-ABFF-8776693823DD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A69499E3-8CCC-4FAA-8884-CCB2D59720AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A69499E3-8CCC-4FAA-8884-CCB2D59720AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A69499E3-8CCC-4FAA-8884-CCB2D59720AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A69499E3-8CCC-4FAA-8884-CCB2D59720AF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
